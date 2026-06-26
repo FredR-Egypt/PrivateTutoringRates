@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Private Tutoring — Frédérique Royon</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Georgia', 'Palatino', 'Times New Roman', serif;
+    background: #fcf8f3;
+    color: #2d2a24;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 24px 16px 40px;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #d4a373;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #7a4a2e;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+  }
+  .header .sub {
+    font-size: 13px;
+    color: #8a7a6a;
+    line-height: 1.5;
+  }
+  .header .sub strong { color: #5a4a3a; }
+
+  .section {
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #7a4a2e;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .section-intro {
+    font-size: 13px;
+    color: #8a7a6a;
+    font-style: italic;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .loc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .loc-card {
+    border: 1px solid #e8ddd0;
+    border-radius: 10px;
+    padding: 12px 6px;
+    text-align: center;
+    background: #fffcf8;
+  }
+  .loc-card .icon { font-size: 18px; display: block; margin-bottom: 4px; }
+  .loc-card .label { font-size: 12px; font-weight: 700; color: #7a4a2e; }
+  .loc-card .desc { font-size: 10px; color: #8a7a6a; }
+
+  .rate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .rate-card {
+    border: 1px solid #e8ddd0;
+    border-radius: 10px;
+    padding: 12px;
+    background: #fffcf8;
+  }
+  .rate-card .loc-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #d4a373;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .rate-card ul { list-style: none; padding: 0 4px; }
+  .rate-card li {
+    font-size: 13px;
+    color: #4a3a2a;
+    padding: 4px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #f0e8dd;
+    gap: 8px;
+  }
+  .rate-card li:last-child { border-bottom: none; }
+  .rate-card li .label { flex-shrink: 0; }
+  .rate-card li .price {
+    font-weight: 700;
+    color: #2d2a24;
+    font-size: 14px;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .rate-card li .price .note {
+    font-weight: 400;
+    font-size: 10px;
+    color: #a09080;
+  }
+
+  .pkg-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .pkg-table th {
+    padding: 8px 10px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 10px;
+    color: #d4a373;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #d4a373;
+  }
+  .pkg-table th:last-child, .pkg-table td:last-child { text-align: center; }
+  .pkg-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #e8ddd0;
+    color: #4a3a2a;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .pkg-table td:first-child { font-weight: 600; white-space: nowrap; text-align: left; }
+  .pkg-table th:last-child, .pkg-table td:last-child {
+    text-align: right;
+    white-space: nowrap;
+  }
+  .pkg-table .saved {
+    display: inline-block;
+    background: #f5ede4;
+    color: #7a4a2e;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 8px;
+    margin-left: 4px;
+  }
+
+  .note { font-size: 11px; color: #a09080; margin-top: 6px; font-style: italic; text-align: center; }
+
+  .travel-grid { border: 1px solid #e8ddd0; border-radius: 10px; overflow: hidden; }
+  .travel-row { display: grid; grid-template-columns: 1fr 1fr; }
+  .travel-cell {
+    padding: 7px 10px;
+    font-size: 13px;
+    color: #4a3a2a;
+    border-bottom: 1px solid #f0e8dd;
+  }
+  .travel-cell:first-child { font-weight: 600; }
+  .travel-header {
+    padding: 7px 10px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #d4a373;
+    border-bottom: 2px solid #d4a373;
+  }
+
+  .terms-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .term-card {
+    border: 1px solid #e8ddd0;
+    border-radius: 10px;
+    padding: 12px;
+    background: #fffcf8;
+  }
+  .term-card h4 {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #d4a373;
+    margin-bottom: 4px;
+  }
+  .term-card.warning h4 { color: #c0392b; }
+  .term-card ul { list-style: none; padding: 0; }
+  .term-card li {
+    font-size: 12px;
+    color: #4a3a2a;
+    padding: 2px 0;
+    line-height: 1.4;
+  }
+  .term-card li::before { content: '·'; color: #c0b0a0; margin-right: 6px; }
+  .term-card li strong { color: #2d2a24; }
+
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: #a09080;
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid #e8ddd0;
+  }
+
+  @media print {
+    @page { size: A4 landscape; margin: 12mm; }
+    body { max-width: none; padding: 0; background: white; }
+    .header { margin-bottom: 16px; }
+    body { font-size: 13px; }
+    .rate-card li .price { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Frédérique Royon</h1>
+  <div class="sub">
+    Private Tutoring &middot; French Lessons — Ontario &amp; IB<br>
+    International school teacher &middot; 25 years of experience &middot; <strong>Maadi, Cairo</strong>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">How We Work</div>
+  <div class="loc-grid">
+    <div class="loc-card">
+      <span class="icon">💻</span>
+      <div class="label">Online</div>
+      <div class="desc">Google Meet<br>Solo sessions only</div>
+    </div>
+    <div class="loc-card">
+      <span class="icon">🏠</span>
+      <div class="label">At Home</div>
+      <div class="desc">Your child comes to me</div>
+    </div>
+    <div class="loc-card">
+      <span class="icon">🚗</span>
+      <div class="label">I Travel</div>
+      <div class="desc">I come to you</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">45-Minute Sessions</div>
+  <div class="section-intro">Recommended for students 8 years old and under</div>
+  <div class="rate-grid">
+    <div class="rate-card">
+      <div class="loc-label">At Home or Online</div>
+      <ul>
+        <li><span class="label">1 student</span><span class="price">750 <span class="note">EGP</span></span></li>
+        <li><span class="label">2 students</span><span class="price">650 <span class="note">EGP / student</span></span></li>
+        <li><span class="label">3 students</span><span class="price">550 <span class="note">EGP / student</span></span></li>
+      </ul>
+    </div>
+    <div class="rate-card">
+      <div class="loc-label">I Travel to You</div>
+      <ul>
+        <li><span class="label">1 student</span><span class="price">1,250 <span class="note">EGP + supp.</span></span></li>
+        <li><span class="label">2 students</span><span class="price">1,000 <span class="note">EGP / student + supp.</span></span></li>
+        <li><span class="label">3 students</span><span class="price">850 <span class="note">EGP / student + supp.</span></span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">1-Hour Sessions</div>
+  <div class="section-intro">The standard format — subject support, homework, French learning</div>
+  <div class="rate-grid">
+    <div class="rate-card">
+      <div class="loc-label">At Home or Online</div>
+      <ul>
+        <li><span class="label">1 student</span><span class="price">1,000 <span class="note">EGP</span></span></li>
+        <li><span class="label">2 students</span><span class="price">850 <span class="note">EGP / student</span></span></li>
+        <li><span class="label">3 students</span><span class="price">700 <span class="note">EGP / student</span></span></li>
+      </ul>
+    </div>
+    <div class="rate-card">
+      <div class="loc-label">I Travel to You</div>
+      <ul>
+        <li><span class="label">1 student</span><span class="price">1,300 <span class="note">EGP + supp.</span></span></li>
+        <li><span class="label">2 students</span><span class="price">1,100 <span class="note">EGP / student + supp.</span></span></li>
+        <li><span class="label">3 students</span><span class="price">950 <span class="note">EGP / student + supp.</span></span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">French Game Sessions — 1 Hour</div>
+  <div class="section-intro">Discover French through games — no homework, just fun in French!</div>
+  <div class="rate-grid">
+    <div class="rate-card">
+      <div class="loc-label">At Home</div>
+      <ul>
+        <li><span class="label">1 student</span><span class="price">800 <span class="note">EGP</span></span></li>
+        <li><span class="label">2 students</span><span class="price">700 <span class="note">EGP / student</span></span></li>
+        <li><span class="label">3 students</span><span class="price">550 <span class="note">EGP / student</span></span></li>
+      </ul>
+    </div>
+    <div class="rate-card">
+      <div class="loc-label">I Travel to You</div>
+      <ul>
+        <li><span class="label">1 student</span><span class="price">1,050 <span class="note">EGP + supp.</span></span></li>
+        <li><span class="label">2 students</span><span class="price">900 <span class="note">EGP / student + supp.</span></span></li>
+        <li><span class="label">3 students</span><span class="price">750 <span class="note">EGP / student + supp.</span></span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Packages — Save up to 10%</div>
+  <div class="section-intro">Full payment upfront. Hours usable as 1h or 1h30 sessions.</div>
+  <table class="pkg-table">
+    <tr>
+      <th>Package</th>
+      <th>At Home / Online</th>
+      <th>I Travel</th>
+    </tr>
+    <tr><td>Solo — 5h</td><td>4,750 EGP</td><td>6,200 EGP</td></tr>
+    <tr><td>Solo — 10h <span class="saved">-10%</span></td><td>9,000 EGP</td><td>11,700 EGP</td></tr>
+    <tr><td>2 students — 5h</td><td>4,050 EGP / student</td><td>5,250 EGP / student</td></tr>
+    <tr><td>2 students — 10h <span class="saved">-10%</span></td><td>7,650 EGP / student</td><td>9,900 EGP / student</td></tr>
+    <tr><td>3 students — 5h</td><td>3,350 EGP / student</td><td>4,500 EGP / student</td></tr>
+    <tr><td>3 students — 10h <span class="saved">-10%</span></td><td>6,300 EGP / student</td><td>8,550 EGP / student</td></tr>
+  </table>
+  <p class="note">Transport costs not included in travel packages — billed separately.</p>
+</div>
+
+<div class="section">
+  <div class="section-title">Travel Supplement</div>
+  <p class="note" style="margin-bottom:8px;">Fixed supplement based on distance from Maadi. Divided equally between students.</p>
+  <div class="travel-grid">
+    <div class="travel-row">
+      <div class="travel-header">Round-Trip Journey</div>
+      <div class="travel-header">Supplement</div>
+      <div class="travel-cell">Up to 15 min</div>
+      <div class="travel-cell">No supplement</div>
+      <div class="travel-cell">15 to 30 min</div>
+      <div class="travel-cell">+ 200 EGP</div>
+      <div class="travel-cell">30 to 45 min</div>
+      <div class="travel-cell">+ 500 EGP</div>
+      <div class="travel-cell">45 to 60 min</div>
+      <div class="travel-cell">+ 800 EGP</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Terms &amp; Conditions</div>
+  <div class="terms-grid">
+    <div class="term-card">
+      <h4>Payment</h4>
+      <ul>
+        <li>Paid at <strong>start of each lesson</strong></li>
+        <li>Packages paid <strong>in full upfront</strong></li>
+      </ul>
+    </div>
+    <div class="term-card warning">
+      <h4>Cancellation</h4>
+      <ul>
+        <li>&gt; 24h — <strong>free</strong></li>
+        <li>12–24h — <strong>50%</strong> owed</li>
+        <li>&lt; 12h — <strong>100%</strong> owed</li>
+      </ul>
+    </div>
+    <div class="term-card warning">
+      <h4>Important</h4>
+      <ul>
+        <li>Travel: confirm <strong>24h in advance</strong></li>
+        <li>Late arrivals: billed in full</li>
+      </ul>
+    </div>
+    <div class="term-card">
+      <h4>Recording</h4>
+      <ul>
+        <li>Recorded at my home or online</li>
+        <li>Kept 90 days, then deleted</li>
+        <li>Adult must be present at your home</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Frédérique Royon &middot; Maadi, Cairo</div>
+
+</body>
+</html>
